@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>简单静态页面</title>
+    <meta name="description" content="一个简单的静态网页示例：响应式布局、卡片、暗色模式与少量交互。" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">跳到主要内容</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand" aria-label="站点品牌">
+          <span class="brand-mark" aria-hidden="true">Y</span>
+          <span class="brand-name">Yep Demo</span>
+        </div>
+
+        <nav class="nav" aria-label="主导航">
+          <a href="#features">特性</a>
+          <a href="#gallery">展示</a>
+          <a href="#contact">联系</a>
+        </nav>
+
+        <div class="header-actions">
+          <button id="themeToggle" class="btn btn-ghost" type="button" aria-pressed="false">
+            切换主题
+          </button>
+          <a class="btn" href="#contact">开始</a>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1>一个干净、响应式的静态页面</h1>
+            <p>
+              纯 HTML/CSS/JS，无需构建工具。包含卡片布局、按钮样式、暗色模式、平滑滚动与简单的表单校验。
+            </p>
+            <div class="hero-cta">
+              <a class="btn" href="#features">看看特性</a>
+              <button id="toastBtn" class="btn btn-ghost" type="button">点我试试</button>
+            </div>
+            <div class="hero-meta" role="status" aria-live="polite">
+              <span class="pill">本地可直接打开</span>
+              <span class="pill">自适应移动端</span>
+              <span class="pill">可访问性友好</span>
+            </div>
+          </div>
+
+          <div class="hero-card" aria-label="示例卡片">
+            <div class="card">
+              <div class="card-header">
+                <div>
+                  <div class="card-title">状态概览</div>
+                  <div class="card-subtitle">轻量交互 + 清爽视觉</div>
+                </div>
+                <div class="badge" id="timeBadge" title="当前时间">--:--</div>
+              </div>
+              <div class="card-body">
+                <div class="stat">
+                  <div class="stat-label">加载速度</div>
+                  <div class="stat-value">快</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-label">依赖</div>
+                  <div class="stat-value">0</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-label">主题</div>
+                  <div class="stat-value" id="themeLabel">跟随系统</div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <a class="link" href="#gallery">查看更多 →</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="features" class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>页面特性</h2>
+            <p>简洁但不简陋，适合作为小型落地页/说明页模板。</p>
+          </div>
+
+          <div class="grid">
+            <article class="feature">
+              <h3>响应式布局</h3>
+              <p>在手机、平板、桌面端都有良好体验。</p>
+            </article>
+            <article class="feature">
+              <h3>暗色模式</h3>
+              <p>支持一键切换，并记住你的偏好。</p>
+            </article>
+            <article class="feature">
+              <h3>少量交互</h3>
+              <p>平滑滚动、轻提示、表单校验，够用即可。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="gallery" class="section alt">
+        <div class="container">
+          <div class="section-head">
+            <h2>展示区</h2>
+            <p>用卡片展示内容，替换成你的业务信息即可。</p>
+          </div>
+
+          <div class="cards">
+            <div class="mini-card">
+              <div class="mini-card-title">模块 A</div>
+              <div class="mini-card-text">清晰的信息层级</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-card-title">模块 B</div>
+              <div class="mini-card-text">统一的视觉风格</div>
+            </div>
+            <div class="mini-card">
+              <div class="mini-card-title">模块 C</div>
+              <div class="mini-card-text">可复制的组件结构</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contact" class="section">
+        <div class="container">
+          <div class="section-head">
+            <h2>联系 / 留言</h2>
+            <p>示例表单：本地不会真的提交，只做前端校验与提示。</p>
+          </div>
+
+          <form id="contactForm" class="form" novalidate>
+            <label class="field">
+              <span>你的称呼</span>
+              <input name="name" type="text" autocomplete="name" placeholder="例如：小明" required minlength="2" />
+              <small class="hint">至少 2 个字符。</small>
+            </label>
+
+            <label class="field">
+              <span>邮箱</span>
+              <input name="email" type="email" autocomplete="email" placeholder="name@example.com" required />
+              <small class="hint">用于回复你。</small>
+            </label>
+
+            <label class="field">
+              <span>留言</span>
+              <textarea name="message" rows="4" placeholder="想说点什么？" required minlength="5"></textarea>
+              <small class="hint">至少 5 个字符。</small>
+            </label>
+
+            <div class="form-actions">
+              <button class="btn" type="submit">发送</button>
+              <button class="btn btn-ghost" type="reset">清空</button>
+            </div>
+          </form>
+        </div>
+      </section>
+
+      <div id="toast" class="toast" role="status" aria-live="polite" aria-atomic="true" hidden>
+        已触发示例提示。
+      </div>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <span>© <span id="year">----</span> Static Page</span>
+        <a class="link" href="#main">回到顶部 ↑</a>
+      </div>
+    </footer>
+
+    <script src="./script.js" defer></script>
+  </body>
+</html>
