@@ -18,8 +18,31 @@
   function setActive(target) {
     dockBtns.forEach((btn) => {
       const isActive = btn.dataset.target === target;
-      btn.setAttribute('aria-current', isActive ? 'true' : 'false');
+      // aria-current should be absent when inactive; when active use a valid token.
+      if (isActive) {
+        btn.setAttribute('aria-current', 'page');
+      } else {
+        btn.removeAttribute('aria-current');
+      }
     });
+  }
+
+  function normalizeTarget(raw) {
+    const t = (raw || '').trim().replace(/^#/, '');
+    if (!t) return null;
+    if (t === 'home') return 'home';
+    return dockBtns.some((b) => b.dataset.target === t) ? t : null;
+  }
+
+  function updateHash(target, { replace = true } = {}) {
+    const id = target === 'home' ? 'home' : target;
+    const next = `#${id}`;
+    try {
+      if (replace) window.history.replaceState(null, '', next);
+      else window.history.pushState(null, '', next);
+    } catch {
+      // ignore (older browsers / file:// quirks)
+    }
   }
 
   function scrollToTarget(target) {
@@ -42,6 +65,7 @@
       setActive(target);
       scrollToTarget(target);
       showToast(btn.getAttribute('aria-label') || '已跳转');
+      updateHash(target, { replace: false });
     });
   });
 
@@ -53,11 +77,10 @@
     if (!target) return;
     const sectionId = target === 'home' ? 'home' : target;
     setActive(sectionId);
+    updateHash(sectionId, { replace: false });
   });
 
   // Active section tracking
-  const sectionById = new Map(sections.map((s) => [s.getAttribute('data-section'), s]));
-
   const observer = new IntersectionObserver(
     (entries) => {
       // Pick most visible section
@@ -119,7 +142,9 @@
     e.preventDefault();
     setActive(target);
     scrollToTarget(target);
-    showToast(`跳转：${target}`);
+    const label = dockBtns.find((b) => b.dataset.target === target)?.getAttribute('aria-label') || target;
+    showToast(`跳转：${label}`);
+    updateHash(target, { replace: false });
   });
 
   // Improve focus outlines for keyboard users
@@ -129,4 +154,16 @@
     window.removeEventListener('keydown', handleFirstTab);
   }
   window.addEventListener('keydown', handleFirstTab);
+
+  // Deep-link / back-forward: keep dock highlight in sync with the URL.
+  function syncFromHash({ scroll = false } = {}) {
+    const target = normalizeTarget(window.location.hash);
+    if (!target) return;
+    setActive(target);
+    if (scroll) scrollToTarget(target);
+  }
+
+  window.addEventListener('hashchange', () => syncFromHash({ scroll: false }));
+  // On first load: if there is a hash, ensure correct highlight (browser will scroll itself).
+  syncFromHash({ scroll: false });
 })();
